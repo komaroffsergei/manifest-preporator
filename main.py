@@ -175,8 +175,9 @@ def main():
             wav_file = text_to_speech(sentence, filename_no_ext, profile)
 
             if wav_file:
-                # Нормализуем путь для Windows/Linux
-                relative_path = wav_file.replace("\\", "/")
+                # Путь в манифесте должен быть относительным относительно manifest.csv
+                manifest_dir = os.path.dirname(MANIFEST_FILE)
+                relative_path = os.path.relpath(wav_file, start=manifest_dir).replace("\\", "/")
                 manifest_lines.append(f"{relative_path},{sentence}")
                 total_files += 1
 
